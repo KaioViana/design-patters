@@ -1,6 +1,5 @@
-interface DataSourceInterface {
-  read(filePath: string): void;
-  write(): void;
+interface FileDataSourceInterface {
+  write(filePath: string, data: Buffer): void;
 };
 
-export { DataSourceInterface };
+export { FileDataSourceInterface };
