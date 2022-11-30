@@ -1,6 +1,6 @@
 import { FileDataSourceInterface } from "./fileDataSource.interface";
 
-class FileDataSourceDecorator implements FileDataSourceInterface {
+abstract class FileDataSourceDecorator implements FileDataSourceInterface {
   protected fileDataSource: FileDataSourceInterface;
 
   constructor(fileDataSource: FileDataSourceInterface) {
