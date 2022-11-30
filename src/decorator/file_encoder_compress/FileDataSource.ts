@@ -8,7 +8,7 @@ class FileDataSource implements FileDataSourceInterface {
   }
 
   public write(filePath: string, data: Buffer): void {
-    writeFileSync(filePath, data.toString());
+    writeFileSync(filePath, data.toString('base64'));
   }
 }
 

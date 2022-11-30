@@ -1,6 +1,7 @@
 import { FileDataSource } from "./FileDataSource"
 import { join } from 'path';
 import { FileDataSourceEncryptDecorator } from "./FileDataSourceEncrypt.decorator";
+import { FileDataSourceCompressDecorator } from "./FileDataSourceCompress.decorator";
 
 (() => {
   console.log('___====___ FileDataSource ___===___');
@@ -23,7 +24,17 @@ import { FileDataSourceEncryptDecorator } from "./FileDataSourceEncrypt.decorato
   const writeEncryptedFileDataSourcePath =
     join(`${__dirname}/files/${writeEncryptedFileDataSource}`);
   fileDataSourceEncrypt.write(writeEncryptedFileDataSourcePath, data);
-  console.log('___===___ END FileDataSourceEncrypt ___===___');
+  console.log('___===___ END FileDataSourceEncrypt ___===___\n');
+
+  console.log('___===___ FileDataSourceCompressDecorator ___===___');
+  const fileDataSourceCompress =
+    new FileDataSourceCompressDecorator(fileDataSource);
+
+  const writeCompressedFileDataSource = 'file_write_CompressedDataSource.zip';
+  const writeCompressedFileDataSourcePath =
+    join(`${__dirname}/files/${writeCompressedFileDataSource}`);
+  fileDataSourceCompress.write(writeCompressedFileDataSourcePath, data);
+  console.log('___===___ END FileDataSourceCompressed ___===___\n');
 
 
 })()
