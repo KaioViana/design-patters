@@ -1,29 +1,59 @@
-import { ActivityFactoryInterface } from "./activity-factory.interface";
-import { RetailActivityType } from "./implementations/RetailActivity";
-import { RetailActivityFactory } from "./RetailActivityFactory";
-const ACTIVITY_GROUP = 'RETAIL';
-const CATEGORY = 'replenishment'
+interface IActivity { }
 
-const data = {
-  workerId: '123',
-  type: 'picker',
-  price: '1000'
-}
+interface IRetailActivity extends IActivity { }
+interface ITextileActivity extends IActivity { }
 
-const clientCode = <T>(factory: ActivityFactoryInterface<T>) => {
-  const activity = CATEGORY === 'replenishment' ? factory.createReplenishment(data) :
-    factory.createContinuousReplenishment(data);
+class RetailContinuousActivity implements IRetailActivity { }
+class RetailReplenishmentActivity implements IRetailActivity { }
 
-  console.log(activity);
-}
+class TextileContinuousActivity implements IRetailActivity { }
+class TextileReplenishmentActivity implements IRetailActivity { }
 
-(() => {
-  switch (ACTIVITY_GROUP) {
-    case 'RETAIL':
-      const factory = new RetailActivityFactory()
-      clientCode<RetailActivityType>(factory);
-      break;
-    default:
-      break;
+
+class RetailActivityFactory implements ActivityFactory {
+  public createContinuousActivity(): IActivity {
+    return new RetailContinuousActivity();
   }
-})()
+
+  public createReplenishmentActivity(): IActivity {
+    return new RetailReplenishmentActivity();
+  }
+}
+
+class TextileActivityFactory implements ActivityFactory {
+  public createContinuousActivity() {
+    return new TextileContinuousActivity();
+  }
+  public createReplenishmentActivity() {
+    return new TextileReplenishmentActivity();
+  }
+}
+
+abstract class ActivityFactory {
+  public static create(type: string): ActivityFactory {
+    if (type === 'retail') return new RetailActivityFactory();
+    if (type === 'textile') return new TextileActivityFactory();
+
+    throw new Error('Não existe');
+  }
+  abstract createContinuousActivity(): IActivity;
+  abstract createReplenishmentActivity(): IActivity;
+
+}
+
+class Client {
+  readonly _factory: ActivityFactory;
+  constructor(type: string) {
+    this._factory = ActivityFactory.create(type);
+  }
+
+  public execute() {
+    const instance = this._factory.createReplenishmentActivity();
+  }
+}
+
+const client = new Client('retail');
+
+
+
+
